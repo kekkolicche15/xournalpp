@@ -44,6 +44,9 @@ enum AVAILABLECURSORS {
     CRSR_PIRATE,
     CRSR_SB_V_DOUBLE_ARROW,
     CRSR_ARROW,
+    CRSR_AGGREGATION_ARROW,
+    CRSR_COMPOSITION_ARROW,
+    CRSR_INHERITANCE_ARROW,
     CRSR_BLANK_CURSOR,
     CRSR_XTERM,
     CRSR_DEFAULT,
@@ -90,6 +93,9 @@ XournalppCursor::XournalppCursor(Control* control): control(control) {
 	cssCursors[CRSR_PIRATE              ] = 	{"pirate", 		"arrow" 			};
 	cssCursors[CRSR_SB_V_DOUBLE_ARROW   ] = 	{"ns-resize", 	""					};
 	cssCursors[CRSR_ARROW               ] = 	{"default", 	""					};
+	cssCursors[CRSR_AGGREGATION_ARROW   ] = 	{"ew-default", 	""					};
+	cssCursors[CRSR_COMPOSITION_ARROW   ] = 	{"ew-default", 	""					};
+	cssCursors[CRSR_INHERITANCE_ARROW   ] = 	{"ew-default", 	""					};
 	cssCursors[CRSR_BLANK_CURSOR        ] = 	{"none", 		""					};
 	cssCursors[CRSR_XTERM               ] = 	{"text", 		""					};
 	cssCursors[CRSR_DEFAULT             ] = 	{"default", 	""					};

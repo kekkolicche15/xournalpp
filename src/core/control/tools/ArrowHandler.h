@@ -22,11 +22,12 @@ class Control;
 
 class ArrowHandler: public BaseShapeHandler {
 public:
-    ArrowHandler(Control* control, const PageRef& page, bool doubleEnded);
+    enum Type { NORMAL, DOUBLE, AGGREGATION, COMPOSITION, INHERITANCE };
+    ArrowHandler(Control* control, const PageRef& page, ArrowHandler::Type arrowType);
     ~ArrowHandler() override;
 
 private:
     auto createShape(bool isAltDown, bool isShiftDown, bool isControlDown)
             -> std::pair<std::vector<Point>, Range> override;
-    bool doubleEnded = false;
+    Type arrowType = NORMAL;
 };

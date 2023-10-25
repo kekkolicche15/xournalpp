@@ -56,6 +56,12 @@ auto drawingTypeToString(DrawingType type) -> std::string {
             return "arrow";
         case DRAWING_TYPE_DOUBLE_ARROW:
             return "doubleArrow";
+        case DRAWING_TYPE_AGGREGATION_ARROW:
+            return "aggregationArrow";
+        case DRAWING_TYPE_COMPOSITION_ARROW:
+            return "compositionArrow";
+        case DRAWING_TYPE_INHERITANCE_ARROW:
+            return "inheritanceArrow";
         case DRAWING_TYPE_SHAPE_RECOGNIZER:
             return "strokeRecognizer";
         case DRAWING_TYPE_COORDINATE_SYSTEM:
@@ -85,6 +91,15 @@ auto drawingTypeFromString(const std::string& type) -> DrawingType {
     }
     if (type == "doubleArrow") {
         return DRAWING_TYPE_DOUBLE_ARROW;
+    }
+    if (type == "aggregationArrow") {
+        return DRAWING_TYPE_AGGREGATION_ARROW;
+    }
+    if (type == "compositionArrow") {
+        return DRAWING_TYPE_COMPOSITION_ARROW;
+    }
+    if (type == "inheritanceArrow") {
+        return DRAWING_TYPE_INHERITANCE_ARROW;
     }
     if (type == "strokeRecognizer") {
         return DRAWING_TYPE_SHAPE_RECOGNIZER;
@@ -151,6 +166,12 @@ auto toolTypeToString(ToolType type) -> std::string {
             return "drawArrow";
         case TOOL_DRAW_DOUBLE_ARROW:
             return "drawDoubleArrow";
+        case TOOL_DRAW_AGGREGATION_ARROW:
+            return "drawAggregationArrow";
+        case TOOL_DRAW_COMPOSITION_ARROW:
+            return "drawCompositionArrow";
+        case TOOL_DRAW_INHERITANCE_ARROW:
+            return "drawInheritanceArrow";
         case TOOL_DRAW_COORDINATE_SYSTEM:
             return "drawCoordinateSystem";
         case TOOL_DRAW_SPLINE:
@@ -219,6 +240,15 @@ auto toolTypeFromString(const std::string& type) -> ToolType {
     }
     if (type == "drawDoubleArrow") {
         return TOOL_DRAW_DOUBLE_ARROW;
+    }
+    if (type == "drawAggregationArrow") {
+        return TOOL_DRAW_AGGREGATION_ARROW;
+    }
+    if (type == "drawCompositionArrow") {
+        return TOOL_DRAW_COMPOSITION_ARROW;
+    }
+    if (type == "drawInheritanceArrow") {
+        return TOOL_DRAW_INHERITANCE_ARROW;
     }
     if (type == "drawCoordinateSystem") {
         return TOOL_DRAW_COORDINATE_SYSTEM;

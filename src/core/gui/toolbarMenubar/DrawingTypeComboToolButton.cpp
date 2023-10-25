@@ -34,6 +34,12 @@ static EnumIndexedArray<DrawingTypeComboToolButton::Entry, DrawingTypeComboToolB
     entries[Type::ARROW] = Entry(_("Draw Arrow"), icons.iconName("draw-arrow"), db, Action::TOOL_DRAW_ARROW);
     entries[Type::DOUBLE_ARROW] =
             Entry(_("Draw Double Arrow"), icons.iconName("draw-double-arrow"), db, Action::TOOL_DRAW_DOUBLE_ARROW);
+    entries[Type::AGGREGATION_ARROW] = Entry(_("Draw Aggregation Arrow"), icons.iconName("draw-aggregation-arrow"), db,
+                                             Action::TOOL_DRAW_AGGREGATION_ARROW);
+    entries[Type::COMPOSITION_ARROW] = Entry(_("Draw Composition Arrow"), icons.iconName("draw-composition-arrow"), db,
+                                             Action::TOOL_DRAW_COMPOSITION_ARROW);
+    entries[Type::INHERITANCE_ARROW] = Entry(_("Draw Inheritance Arrow"), icons.iconName("draw-inheritance-arrow"), db,
+                                             Action::TOOL_DRAW_INHERITANCE_ARROW);
     entries[Type::LINE] = Entry(_("Draw Line"), icons.iconName("draw-line"), db, Action::TOOL_DRAW_LINE);
     entries[Type::COORDINATE_SYSTEM] = Entry(_("Draw coordinate system"), icons.iconName("draw-coordinate-system"), db,
                                              Action::TOOL_DRAW_COORDINATE_SYSTEM);
@@ -64,6 +70,12 @@ DrawingTypeComboToolButton::~DrawingTypeComboToolButton() {
                                          gpointer(setProminentIconCallback<Type::ARROW>), this);
     g_signal_handlers_disconnect_by_func(entries[Type::DOUBLE_ARROW].gAction.get(),
                                          gpointer(setProminentIconCallback<Type::DOUBLE_ARROW>), this);
+    g_signal_handlers_disconnect_by_func(entries[Type::AGGREGATION_ARROW].gAction.get(),
+                                         gpointer(setProminentIconCallback<Type::AGGREGATION_ARROW>), this);
+    g_signal_handlers_disconnect_by_func(entries[Type::COMPOSITION_ARROW].gAction.get(),
+                                         gpointer(setProminentIconCallback<Type::COMPOSITION_ARROW>), this);
+    g_signal_handlers_disconnect_by_func(entries[Type::INHERITANCE_ARROW].gAction.get(),
+                                         gpointer(setProminentIconCallback<Type::INHERITANCE_ARROW>), this);
     g_signal_handlers_disconnect_by_func(entries[Type::LINE].gAction.get(),
                                          gpointer(setProminentIconCallback<Type::LINE>), this);
     g_signal_handlers_disconnect_by_func(entries[Type::COORDINATE_SYSTEM].gAction.get(),
@@ -140,6 +152,12 @@ auto DrawingTypeComboToolButton::createItem(bool horizontal) -> GtkWidget* {
                      G_CALLBACK(setProminentIconCallback<Type::ARROW>), this);
     g_signal_connect(entries[Type::DOUBLE_ARROW].gAction.get(), "notify::state",
                      G_CALLBACK(setProminentIconCallback<Type::DOUBLE_ARROW>), this);
+    g_signal_connect(entries[Type::AGGREGATION_ARROW].gAction.get(), "notify::state",
+                     G_CALLBACK(setProminentIconCallback<Type::AGGREGATION_ARROW>), this);
+    g_signal_connect(entries[Type::COMPOSITION_ARROW].gAction.get(), "notify::state",
+                     G_CALLBACK(setProminentIconCallback<Type::COMPOSITION_ARROW>), this);
+    g_signal_connect(entries[Type::INHERITANCE_ARROW].gAction.get(), "notify::state",
+                     G_CALLBACK(setProminentIconCallback<Type::INHERITANCE_ARROW>), this);
     g_signal_connect(entries[Type::LINE].gAction.get(), "notify::state",
                      G_CALLBACK(setProminentIconCallback<Type::LINE>), this);
     g_signal_connect(entries[Type::COORDINATE_SYSTEM].gAction.get(), "notify::state",

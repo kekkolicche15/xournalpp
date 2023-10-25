@@ -583,6 +583,21 @@
       <attribute name="accel">&lt;Ctrl&gt;5</attribute>
      </item>
      <item>
+      <attribute name="label" translatable="yes">Draw Aggregation Arrow</attribute>
+      <attribute name="action">win.tool-draw-aggregation-arrow</attribute>
+      <attribute name="accel">&lt;Alt&gt;1</attribute>
+     </item>
+     <item>
+      <attribute name="label" translatable="yes">Draw Composition Arrow</attribute>
+      <attribute name="action">win.tool-draw-composition-arrow</attribute>
+      <attribute name="accel">&lt;Alt&gt;2</attribute>
+     </item>
+     <item>
+      <attribute name="label" translatable="yes">Draw Inheritance Arrow</attribute>
+      <attribute name="action">win.tool-draw-inheritance-arrow</attribute>
+      <attribute name="accel">&lt;Alt&gt;3</attribute>
+     </item>
+     <item>
       <attribute name="label" translatable="yes">Draw Coordinate System</attribute>
       <attribute name="action">win.tool-draw-coordinate-system</attribute>
       <attribute name="accel">&lt;Ctrl&gt;6</attribute>

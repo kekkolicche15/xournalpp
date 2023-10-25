@@ -11,8 +11,8 @@
 #include "model/Point.h"                           // for Point
 #include "util/Range.h"                            // for Range
 
-ArrowHandler::ArrowHandler(Control* control, const PageRef& page, bool doubleEnded):
-        BaseShapeHandler(control, page), doubleEnded(doubleEnded) {}
+ArrowHandler::ArrowHandler(Control* control, const PageRef& page, ArrowHandler::Type arrowType):
+        BaseShapeHandler(control, page), arrowType(arrowType) {}
 
 ArrowHandler::~ArrowHandler() = default;
 
@@ -32,7 +32,7 @@ auto ArrowHandler::createShape(bool isAltDown, bool isShiftDown, bool isControlD
     double delta = M_PI / 6.0;
     // We use different slimness regimes for proper sizing:
     const double THICK1 = 7, THICK3 = 1.6;
-    const double LENGTH2 = 0.4, LENGTH4 = (doubleEnded ? 0.5 : 0.8);
+    const double LENGTH2 = 0.4, LENGTH4 = (arrowType == ArrowHandler::Type::DOUBLE ? 0.5 : 0.8);
     // set up the size of the arrow head to be THICK1 x the thickness of the line
     double arrowDist = thickness * THICK1;
     // but not too large compared to the line length
@@ -45,7 +45,7 @@ auto ArrowHandler::createShape(bool isAltDown, bool isShiftDown, bool isControlD
         // arrow head is not too thick compared to the line length (regime 3)
         arrowDist = thickness * THICK3;
         // help visibility by widening the angle
-        delta = (1 + (slimness - THICK3 / LENGTH2) / (THICK3 / LENGTH4 - THICK3 / LENGTH2)) *  M_PI / 6.0;
+        delta = (1 + (slimness - THICK3 / LENGTH2) / (THICK3 / LENGTH4 - THICK3 / LENGTH2)) * M_PI / 6.0;
         // which allows to shorten the tips and keep the horizonzal distance
         arrowDist *= sin(M_PI / 6.0) / sin(delta);
     } else {
@@ -57,26 +57,74 @@ auto ArrowHandler::createShape(bool isAltDown, bool isShiftDown, bool isControlD
 
     const double angle = atan2(c.y - this->startPoint.y, c.x - this->startPoint.x);
 
-    std::pair<std::vector<Point>, Range> res; // members initialised below
+    std::pair<std::vector<Point>, Range> res;  // members initialised below
     std::vector<Point>& shape = res.first;
 
-    shape.reserve(doubleEnded ? 9 : 5);
+    shape.reserve(arrowType == ArrowHandler::Type::NORMAL      ? 5 :
+                  arrowType == ArrowHandler::Type::DOUBLE      ? 9 :
+                  arrowType == ArrowHandler::Type::AGGREGATION ? 9 :
+                  arrowType == ArrowHandler::Type::COMPOSITION ? 6 :
+                  arrowType == ArrowHandler::Type::INHERITANCE ? 6 :
+                                                                 7);
 
     shape.emplace_back(this->startPoint);
 
-    if (doubleEnded) {
-        shape.emplace_back(startPoint.x + arrowDist * cos(angle + delta),
-                           startPoint.y + arrowDist * sin(angle + delta));
-        shape.emplace_back(startPoint);
-        shape.emplace_back(startPoint.x + arrowDist * cos(angle - delta),
-                           startPoint.y + arrowDist * sin(angle - delta));
-        shape.emplace_back(startPoint);
-    }
+    switch (arrowType) {
+        case ArrowHandler::Type::DOUBLE: {
+            shape.emplace_back(startPoint.x + arrowDist * cos(angle + delta),
+                               startPoint.y + arrowDist * sin(angle + delta));
+            shape.emplace_back(startPoint);
+            shape.emplace_back(startPoint.x + arrowDist * cos(angle - delta),
+                               startPoint.y + arrowDist * sin(angle - delta));
+            shape.emplace_back(startPoint);
+        }
+        case ArrowHandler::Type::NORMAL: {
+            shape.emplace_back(c);
+            shape.emplace_back(c.x - arrowDist * cos(angle + delta), c.y - arrowDist * sin(angle + delta));
+            shape.emplace_back(c);
+            shape.emplace_back(c.x - arrowDist * cos(angle - delta), c.y - arrowDist * sin(angle - delta));
+            break;
+        }
+        case ArrowHandler::Type::AGGREGATION: {
+            const Point base(c.x - 2. * arrowDist * cos(angle), c.y - 2. * arrowDist * sin(angle));
+            shape.emplace_back(base);
+            shape.emplace_back(base.x + 1.45 * arrowDist * cos(angle + M_PI / 4.),
+                               base.y + 1.45 * arrowDist * sin(angle + M_PI / 4.));
+            shape.emplace_back(c);
+            shape.emplace_back(c.x - 1.45 * arrowDist * cos(angle + M_PI / 4.),
+                               c.y - 1.45 * arrowDist * sin(angle + M_PI / 4.));
+            shape.emplace_back(base);
+            break;
+        }
+        case ArrowHandler::Type::COMPOSITION: {
+            const Point base(c.x - 2. * arrowDist * cos(angle), c.y - 2. * arrowDist * sin(angle));
 
-    shape.emplace_back(c);
-    shape.emplace_back(c.x - arrowDist * cos(angle + delta), c.y - arrowDist * sin(angle + delta));
-    shape.emplace_back(c);
-    shape.emplace_back(c.x - arrowDist * cos(angle - delta), c.y - arrowDist * sin(angle - delta));
+            shape.emplace_back(c);
+            shape.emplace_back(c.x - 1.45 * arrowDist * cos(angle + M_PI / 4.),
+                               c.y - 1.45 * arrowDist * sin(angle + M_PI / 4.));
+            shape.emplace_back(base);
+            shape.emplace_back(base.x + 1.45 * arrowDist * cos(angle + M_PI / 4.),
+                               base.y + 1.45 * arrowDist * sin(angle + M_PI / 4.));
+            shape.emplace_back(c.x - 1.45 * arrowDist * cos(angle + M_PI / 4.),
+                               c.y - 1.45 * arrowDist * sin(angle + M_PI / 4.));
+            shape.emplace_back(c);
+            shape.emplace_back(base.x + 1.45 * arrowDist * cos(angle + M_PI / 4.),
+                               base.y + 1.45 * arrowDist * sin(angle + M_PI / 4.));
+            shape.emplace_back(base);
+            break;
+        }
+        case ArrowHandler::Type::INHERITANCE: {
+            const Point base(c.x - 2. * arrowDist * cos(angle), c.y - 2. * arrowDist * sin(angle));
+            shape.emplace_back(base);
+            shape.emplace_back(base.x - arrowDist * cos(angle + M_PI / 2.),
+                               base.y - arrowDist * sin(angle + M_PI / 2.));
+            shape.emplace_back(c);
+            shape.emplace_back(base.x + arrowDist * cos(angle + M_PI / 2.),
+                               base.y + arrowDist * sin(angle + M_PI / 2.));
+            shape.emplace_back(base);
+            break;
+        }
+    }
 
     auto [minX, maxX] = std::minmax_element(shape.begin(), shape.end(), [](auto& p, auto& q) { return p.x < q.x; });
     auto [minY, maxY] = std::minmax_element(shape.begin(), shape.end(), [](auto& p, auto& q) { return p.y < q.y; });

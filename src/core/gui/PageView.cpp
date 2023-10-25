@@ -268,10 +268,22 @@ auto XojPageView::onButtonPressEvent(const PositionInputData& pos) -> bool {
                 this->inputHandler = std::make_unique<EllipseHandler>(control, getPage());
                 break;
             case DRAWING_TYPE_ARROW:
-                this->inputHandler = std::make_unique<ArrowHandler>(control, getPage(), false);
+                this->inputHandler = std::make_unique<ArrowHandler>(control, getPage(), ArrowHandler::Type::NORMAL);
                 break;
             case DRAWING_TYPE_DOUBLE_ARROW:
-                this->inputHandler = std::make_unique<ArrowHandler>(control, getPage(), true);
+                this->inputHandler = std::make_unique<ArrowHandler>(control, getPage(), ArrowHandler::Type::DOUBLE);
+                break;
+            case DRAWING_TYPE_AGGREGATION_ARROW:
+                this->inputHandler =
+                        std::make_unique<ArrowHandler>(control, getPage(), ArrowHandler::Type::AGGREGATION);
+                break;
+            case DRAWING_TYPE_COMPOSITION_ARROW:
+                this->inputHandler =
+                        std::make_unique<ArrowHandler>(control, getPage(), ArrowHandler::Type::COMPOSITION);
+                break;
+            case DRAWING_TYPE_INHERITANCE_ARROW:
+                this->inputHandler =
+                        std::make_unique<ArrowHandler>(control, getPage(), ArrowHandler::Type::INHERITANCE);
                 break;
             case DRAWING_TYPE_COORDINATE_SYSTEM:
                 this->inputHandler = std::make_unique<CoordinateSystemHandler>(control, getPage());

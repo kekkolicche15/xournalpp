@@ -540,6 +540,9 @@ struct ActionPropDrawingTypes {
         actionDB->setActionState(Action::TOOL_DRAW_ELLIPSE, false);
         actionDB->setActionState(Action::TOOL_DRAW_ARROW, false);
         actionDB->setActionState(Action::TOOL_DRAW_DOUBLE_ARROW, false);
+        actionDB->setActionState(Action::TOOL_DRAW_AGGREGATION_ARROW, false);
+        actionDB->setActionState(Action::TOOL_DRAW_COMPOSITION_ARROW, false);
+        actionDB->setActionState(Action::TOOL_DRAW_INHERITANCE_ARROW, false);
         actionDB->setActionState(Action::TOOL_DRAW_COORDINATE_SYSTEM, false);
         actionDB->setActionState(Action::TOOL_DRAW_LINE, false);
         actionDB->setActionState(Action::TOOL_DRAW_SPLINE, false);
@@ -561,6 +564,12 @@ template <>
 struct ActionProperties<Action::TOOL_DRAW_ARROW>: ActionPropDrawingTypes<DRAWING_TYPE_ARROW> {};
 template <>
 struct ActionProperties<Action::TOOL_DRAW_DOUBLE_ARROW>: ActionPropDrawingTypes<DRAWING_TYPE_DOUBLE_ARROW> {};
+template <>
+struct ActionProperties<Action::TOOL_DRAW_AGGREGATION_ARROW>: ActionPropDrawingTypes<DRAWING_TYPE_AGGREGATION_ARROW> {};
+template <>
+struct ActionProperties<Action::TOOL_DRAW_COMPOSITION_ARROW>: ActionPropDrawingTypes<DRAWING_TYPE_COMPOSITION_ARROW> {};
+template <>
+struct ActionProperties<Action::TOOL_DRAW_INHERITANCE_ARROW>: ActionPropDrawingTypes<DRAWING_TYPE_INHERITANCE_ARROW> {};
 template <>
 struct ActionProperties<Action::TOOL_DRAW_COORDINATE_SYSTEM>: ActionPropDrawingTypes<DRAWING_TYPE_COORDINATE_SYSTEM> {};
 template <>

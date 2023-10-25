@@ -454,6 +454,12 @@ void ToolMenuHandler::initToolItems() {
     emplaceCustomItemTgl("DRAW_ARROW", Action::TOOL_DRAW_ARROW, "draw-arrow", _("Draw Arrow"));
     emplaceCustomItemTgl("DRAW_DOUBLE_ARROW", Action::TOOL_DRAW_DOUBLE_ARROW, "draw-double-arrow",
                          _("Draw Double Arrow"));
+    emplaceCustomItemTgl("DRAW_AGGREGATION_ARROW", Action::TOOL_DRAW_AGGREGATION_ARROW, "draw-aggregation-arrow",
+                         _("Draw Aggregation Arrow"));
+    emplaceCustomItemTgl("DRAW_COMPOSITION_ARROW", Action::TOOL_DRAW_COMPOSITION_ARROW, "draw-composition-arrow",
+                         _("Draw Composition Arrow"));
+    emplaceCustomItemTgl("DRAW_INHERITANCE_ARROW", Action::TOOL_DRAW_INHERITANCE_ARROW, "draw-inheritance-arrow",
+                         _("Draw Inheritance Arrow"));
     emplaceCustomItemTgl("DRAW_COORDINATE_SYSTEM", Action::TOOL_DRAW_COORDINATE_SYSTEM, "draw-coordinate-system",
                          _("Draw coordinate system"));
     emplaceCustomItemTgl("RULER", Action::TOOL_DRAW_LINE, "draw-line", _("Draw Line"));
